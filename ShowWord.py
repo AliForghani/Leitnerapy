@@ -164,7 +164,6 @@ class Show_word(Frame):
         if count==0:
             tkinter.messagebox.showinfo("Warning!", "There is no word in the database. Please add some new words.", parent=self.master)
         else:
-
             if selected_option== 'random':
                 WordInfo=db.SelectRandomWord()
                 wordName, wordMeaning=WordInfo[1],WordInfo[2]
