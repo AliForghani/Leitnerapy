@@ -1,21 +1,19 @@
 # Leitnerapy
 ## A software developed with Python's tkinter and sqlite packages for learning new words efficiently based on Leitner method
-### Source:
-'Orbital launches' table in Wikipedia Orbital Launches:
-[Wikipedia Orbital Launches](https://en.wikipedia.org/wiki/2019_in_spaceflight#Orbital_launches)
 
-### Objective:
-We need a tool to find the number of orbital launches in the source above, if at least one of its
-payloads is reported as 'Successful', 'Operational', or 'En Route'. For each launch, listed by date,
-the first line is the launch vehicle and any lines below it correspond to the payloads, of which
-there could be more than one. Please note that there might be multiple launches on a single
-day with multiple payloads within a single launch (we are only interested in the number of
-distinct launches). 
-
+### Stand alone executable:
+In addition to Python codes, a stand-alone executable of the software has been provided, so users without a python
+installation can also use the software.
 
 
 ### Python solution
-Herein, we describe the use of Python packages, requests, beautifulsoup, Pandas and Numpy for this project.
+The software is an object-oriented program containing five python scripts working together:
+- Leitnerapy.py... Responsible for starting the program.
+- AddNewWord.py... Responsible for adding a new word and its meaning into a sql database
+- ShowWord.py... Responsible to retrieve a word from database (randomly or based on Leitner method),
+ and asking that from the user, and putting it into a new group based on the user's response
+- DataBase.py... Containing some functions to manage data in the database
+
 
 #### Packages import:
 

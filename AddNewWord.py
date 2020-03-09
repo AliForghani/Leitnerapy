@@ -35,7 +35,7 @@ class New_word(Frame):
             tkinter.messagebox.showinfo("Warning!", "Enter its meaning!", parent=self.master)
         else:
             db.insertNewWord(InsertedWord,InsertedMeaning)
-            self.input1.delete(0, END)  # note that here we input "0" and not "0.0
+            self.input1.delete(0, END)
             self.input2.delete(0.0, END)
 
 

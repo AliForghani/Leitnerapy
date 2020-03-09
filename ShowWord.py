@@ -1,6 +1,4 @@
 from tkinter import *
-import random
-from Checks import *
 from DataBase import Database
 from tkinter.font import Font
 import tkinter.messagebox
@@ -24,32 +22,12 @@ class Show_word(Frame):
         self.unit.set("random")
         self.unit0 = Radiobutton(self, text="Random", variable=self.unit, value="random", command=self.ActivateRandom)
         self.unit0.grid(row=1, column=0, sticky=W)
-        # self.unit1 = Radiobutton(self, text="Ordered", variable=self.unit, value="ordered",command=self.ActivateOrdered)
-        # self.unit1.grid(row=2, column=0, sticky=W)
+
         self.unit2 = Radiobutton(self, text="Leitner", variable=self.unit, value="Leitner",command=self.ActivateLeitner)
         self.unit2.grid(row=3, column=0, sticky=W)
 
-
-        # self.StartFromLabel = Label(self, text="Start from:")
-        # self.StartFromLabel.grid(row=2, column=1, sticky=W)
-        # self.StartFromValue = Entry(self)
-        # self.StartFromValue.grid(row=2, column=2, sticky=W)
-        # self.StartFromValue.insert(0, 1)
-        # self.StartFromValue.configure(state='disabled')
-
-
-        #here we define a global variable..becausue we did not know how to update the numerator for "ordered" option
-        self.globnum=IntVar()
-        self.globnum.set(0)
         self.button1 = Button(self, text="Show a word ", bg="red", fg="white",command=  self.showword,font=6)
         self.button1.grid(row=4, column=2)
-
-        # self.applychanges = Button(self, text="Apply changes! ", bg="red", fg="white",command=  self.applychangefunc,font=4)
-        # self.applychanges.grid(row=2, column=3)
-        # self.applychanges.configure(state='disabled')# because by default "random" option is selected
-
-        # self.LeitnerGroupLabel = Label(self, text="group:")
-        # self.LeitnerGroupLabel.grid(row=3, column=1, sticky=W)
 
         Group_Choices = ['Group 1', 'Group 2','Group 3', 'Group 4','Group 5','Group 6','Group 7' ,'Group 8','Group 9 (done)']
 
@@ -73,18 +51,14 @@ class Show_word(Frame):
         self.dummylabel = Label(self, text="")
         self.dummylabel.grid(row=6, column=0)
 
-
         self.button2 = Button(self, text="Show the meaning ", bg="red", fg="white", command=self.showmeaning, font=6)
         self.button2.grid(row=7, column=2)
 
         self.WordMeaningDisplay=Text(self,  width=40, height=10, wrap=WORD, font="-weight bold")
         self.WordMeaningDisplay.grid(row=8, column=1, columnspan=3)
 
-        # self.WordNoLabel = Label(self, text="Word number:")
-        # self.WordNoLabel.grid(row=10, column=1)
         self.WordNoDisplay = Entry(self,state="readonly",width=25)
         self.WordNoDisplay.grid(row=10, column=2)
-        # self.WordNoDisplay.configure(state='readonly')
 
 
         self.meaningchanges = Button(self, text="Modify Meaning ", bg="red", fg="white", command=self.meaningchangefunc,font=ChangeFont)
@@ -105,9 +79,13 @@ class Show_word(Frame):
             self.IKnowItButton.configure(state='normal')
             self.CannotRememberButton.configure(state='normal')
 
+    def CheckForWordSelection(self, word):
+        if word == "":
+            tkinter.messagebox.showinfo("Warning!", "Please select a word!", parent=self.master)
+        else:
+            return True
+
     def ActivateRandom(self):
-        # self.StartFromValue.configure(state='disabled')
-        # self.applychanges.configure(state='disabled')
         self.IKnowItButton.configure(state='disabled')
         self.CannotRememberButton.configure(state='disabled')
         self.LeitnerGroupOptionButton.configure(state='disabled')
@@ -117,16 +95,7 @@ class Show_word(Frame):
         self.WordMeaningDisplay.delete(0.0, END)
         self.WordNoDisplay.configure(state='readonly')
 
-    def ActivateOrdered(self):
-        # self.StartFromValue.configure(state='normal')
-        # self.applychanges.configure(state='normal')
-        self.IKnowItButton.configure(state='disabled')
-        self.CannotRememberButton.configure(state='disabled')
-        self.LeitnerGroupOptionButton.configure(state='disabled')
-
     def ActivateLeitner(self):
-        # self.StartFromValue.configure(state='disabled')
-        # self.applychanges.configure(state='disabled')
         self.IKnowItButton.configure(state='normal')
         self.CannotRememberButton.configure(state='normal')
         self.LeitnerGroupOptionButton.configure(state='normal')
@@ -136,19 +105,13 @@ class Show_word(Frame):
         self.WordMeaningDisplay.delete(0.0, END)
         self.WordNoDisplay.configure(state='readonly')
 
-    # def applychangefunc(self):
-    #     checkobject = Checkentryclass(self.master)
-    #     if (checkobject.ApplyChange(self.StartFromValue.get(), str(db.DB_len()))):
-    #         self.globnum.set(0)
-
     def meaningchangefunc(self):
         WordMeaning = self.WordMeaningDisplay.get("1.0", END)
         WordName = self.WordNameInput.get()
         db.UpdateMeaning(WordName,WordMeaning)
 
     def DeleteTheWord(self):
-        checkobject = Checkentryclass(self.master)
-        if (checkobject.ShowingMeaning(self.WordNameInput.get())):
+        if (self.CheckForWordSelection(self.WordNameInput.get())):
             WordName = self.WordNameInput.get()
             db.DeleteTheWord(WordName)
             self.WordNameInput.delete(0, END)
@@ -158,8 +121,7 @@ class Show_word(Frame):
             self.WordNoDisplay.configure(state='readonly')
 
     def IKnowIt(self):
-        checkobject = Checkentryclass(self.master)
-        if (checkobject.ShowingMeaning(self.WordNameInput.get())):
+        if (self.CheckForWordSelection(self.WordNameInput.get())):
             WordName = self.WordNameInput.get()
             #increase group number by 1
             db.UpdateLeitnerGroup(WordName, int(self.SelectedGroup)+1)
@@ -169,12 +131,8 @@ class Show_word(Frame):
             self.WordMeaningDisplay.delete(0.0, END)
             self.WordNoDisplay.configure(state='readonly')
 
-
-
-
     def CannotRemember(self):
-        checkobject = Checkentryclass(self.master)
-        if (checkobject.ShowingMeaning(self.WordNameInput.get())):
+        if (self.CheckForWordSelection(self.WordNameInput.get())):
             WordName = self.WordNameInput.get()
             db.UpdateLeitnerGroup(WordName,  1)
             self.WordNameInput.delete(0, END)  # note that here we input "0" and not "0.0
@@ -183,14 +141,23 @@ class Show_word(Frame):
             self.WordMeaningDisplay.delete(0.0, END)
             self.WordNoDisplay.configure(state='readonly')
 
+    def showmeaning(self):
+        if (self.CheckForWordSelection(self.WordNameInput.get())):
+            self.meaningchanges.configure(state='normal')  # here we activate the option of editing meanings
+
+            WordName = self.WordNameInput.get()
+            wordMeaning = db.GetMeaning(WordName)
+
+            self.WordMeaningDisplay.delete(0.0, END)
+            self.WordMeaningDisplay.insert(0.0, wordMeaning)
 
     def showword(self):
-        self.WordNameInput.delete(0, END)  # note that here we input "0" and not "0.0
+        self.WordNameInput.delete(0, END)
         self.WordNoDisplay.configure(state='normal')
         self.WordNoDisplay.delete(0, END)
         self.WordMeaningDisplay.delete(0.0, END)
         self.WordNoDisplay.configure(state='readonly')
-        self.meaningchanges.configure(state='disabled')  # here again we activate this option
+        self.meaningchanges.configure(state='disabled')
         selected_option = self.unit.get()
 
         count = db.DB_len()
@@ -201,28 +168,6 @@ class Show_word(Frame):
             if selected_option== 'random':
                 WordInfo=db.SelectRandomWord()
                 wordName, wordMeaning=WordInfo[1],WordInfo[2]
-            # elif selected_option== 'ordered' :
-            #     FirstSelectedvalue = int(self.StartFromValue.get())
-            #     count = db.DB_len()
-            #
-            #     #here we update the global variable
-            #     # global globnum
-            #
-            #     # SelectedID = FirstSelectedvalue+self.globnum.get()
-            #     # if self.globnum.get()+FirstSelectedvalue <count:
-            #     #     self.globnum.set(self.globnum.get()+1)
-            #     # else:
-            #     #     self.globnum.set(0)
-            #
-            #     SelectedID = FirstSelectedvalue+db.OrderCounter
-            #     if db.OrderCounter+FirstSelectedvalue <count:
-            #         db.OrderCounter += 1
-            #     else:
-            #         db.OrderCounter =0
-            #
-            #     print(db.OrderCounter)
-            #     WordInfo = db.SelectOneWord(SelectedID)
-            #     wordName, wordMeaning = WordInfo[1], WordInfo[2]
 
             else:
                 GroupsLagOfTime=[1,2,3,5,7,10,20,30,1e-15]
@@ -238,21 +183,13 @@ class Show_word(Frame):
                             db.Group9Id+=1
                         else:
                             db.Group9Id=0
-
                     else:
-
                         wordName, wordMeaning = ThisGroupSelectedDF.iloc[0, 1], ThisGroupSelectedDF.iloc[0, 2]
-
                 else:
-                    tkinter.messagebox.showinfo("Error",
-                                                "no word for this group. Check another group!.\n",
-                                                parent=self.master)
+                    tkinter.messagebox.showinfo("Error","no word for this group. Check another group!.\n",parent=self.master)
 
-
-
-
-            self.WordNameInput.delete(0, END)  # note that here we input "0" and not "0.0
-            self.WordNameInput.insert(0, wordName)  # note that here we input "0" and not "0.0
+            self.WordNameInput.delete(0, END)
+            self.WordNameInput.insert(0, wordName)
             self.WordNoDisplay.configure(state='normal')
             self.WordNoDisplay.delete(0, END)
             if selected_option== 'random':
@@ -262,27 +199,10 @@ class Show_word(Frame):
                     self.WordNoDisplay.insert(0, "%d more words in group %d" % (len(ThisGroupSelectedDF)-1,self.SelectedGroup))
                 else:
                     self.WordNoDisplay.insert(0, "%d words in group 9" % (len(ThisGroupSelectedDF)))
-
-
             self.WordMeaningDisplay.delete(0.0, END)
             self.WordNoDisplay.configure(state='readonly')
 
 
-
-
-
-
-    def showmeaning(self):
-        checkobject = Checkentryclass(self.master)
-        if (checkobject.ShowingMeaning(self.WordNameInput.get())):
-            self.meaningchanges.configure(state='normal') # here we activate the option of editing meanings
-
-            # WordInfo = db.SelectOneWord(int(self.WordNoDisplay.get().split()[1].split("/")[0]))
-            WordName = self.WordNameInput.get()
-            wordMeaning = db.GetMeaning(WordName)
-
-            self.WordMeaningDisplay.delete(0.0,END)
-            self.WordMeaningDisplay.insert(0.0, wordMeaning)
 
 
 
