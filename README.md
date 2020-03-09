@@ -21,7 +21,7 @@ Below two files have been provided for making a stand-alone executable (for use 
 - MakeExe.bat... A batch file to run the "ExeSetup.py" file using a python installation
 
 
-![alt text](../HelpImages/StartingPage.png)
+![alternativetext](../HelpImages/StartingPage.png)
 
 
 
