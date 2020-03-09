@@ -46,15 +46,11 @@ class Database():
         ThisGroupDF=pd.DataFrame(ThisGroupInfo, columns=["Id", "Word", "Meaning", "GroupId", "CurrentDate"])
         if len(ThisGroupDF)>0:
             ThisGroupDF['DateFormat'] = ThisGroupDF['CurrentDate'].astype('datetime64[ns]')
-            # print(ThisGroupDF)
             now = datetime.datetime.now()
-            ThisGroupDF["DiffInTime"]= ThisGroupDF.apply(lambda x : (now-x.DateFormat).total_seconds(), axis=1)#  abs(ThisGroupDF['DateFormat']-now).seconds
-            # print(ThisGroupDF)
+            ThisGroupDF["DiffInTime"]= ThisGroupDF.apply(lambda x : (now-x.DateFormat).total_seconds(), axis=1)
             ThisGroupSelected=ThisGroupDF[ThisGroupDF["DiffInTime"]>=DurationInSecond]
             return ThisGroupSelected
-
         else:
-
             return ThisGroupDF
 
 

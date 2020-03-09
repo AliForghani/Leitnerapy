@@ -32,9 +32,6 @@ class Welcome(Frame):
         Show_word(root2)
 
 
-
-
-
 root = Tk()
 myGUIWelcomeWindow=Welcome(root)#we are saying to go to class Welcome and use "root" as the Farme of that class
 root.iconbitmap(default='w.ico')
