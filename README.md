@@ -10,8 +10,8 @@ The software is an object-oriented program containing four python scripts workin
  asking the word from the user, and updating the word's Leitner group based on the user's response
 - DataBase.py... contains some functions to manage data in the database
 
-### other needed files
-The file "w.ico" is simply an icon file and "Words.db" is the sqlite database file containing some initial words.
+### Other needed files
+The file "w.ico" is simply an icon file, and "Words.db" is the sqlite database file containing some initial words.
 Having these two files in the same directory as other python files is necessary for using the software.
 If needed, programs such as SQLiteStudio can be used to investigate the contents of "Words.db" file.
 
