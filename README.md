@@ -5,7 +5,7 @@
 ### Python solution
 The software is an object-oriented program containing four python scripts working together:
 - Leitnerapy.py... starts the program.
-- AddNewWord.py... adds a new word and its meaning into a sql database.
+- AddNewWord.py... adds new words and their meanings into a sql database.
 - ShowWord.py... retrieves a word from database (randomly or based on Leitner method),
  asks the word from the user, and updates the word's Leitner group based on the user's response.
 - DataBase.py... contains some functions to manage data in the database.
@@ -13,7 +13,7 @@ The software is an object-oriented program containing four python scripts workin
 ### Other needed files
 The file "w.ico" is simply an icon file, and "Words.db" is the sqlite database file containing some initial words.
 Having these two files in the same directory as other python files is necessary for using the software.
-If needed, programs such as SQLiteStudio can be used to investigate the contents of "Words.db" file.
+If desired, programs such as SQLiteStudio can be used to investigate the contents of "Words.db" file.
 
 ### Making an executable:
 Below two files have been provided for making a stand-alone executable (for use in computers without a python installation):

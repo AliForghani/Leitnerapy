@@ -6,7 +6,7 @@ from ShowWord import *
 
 class Welcome(Frame):
 
-    def __init__(self, master): #by choosing name "master" in this line, the parent window is called "master" in subsequent lines
+    def __init__(self, master):
         super(Welcome,self).__init__(master)
         self.Frame1=Frame(master)
         self.Frame1.pack(fill=BOTH,expand=1)
@@ -33,7 +33,7 @@ class Welcome(Frame):
 
 
 root = Tk()
-myGUIWelcomeWindow=Welcome(root)#we are saying to go to class Welcome and use "root" as the Farme of that class
+myGUIWelcomeWindow=Welcome(root)
 root.iconbitmap(default='w.ico')
 root.mainloop()
 
