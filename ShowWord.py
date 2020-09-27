@@ -2,6 +2,10 @@ from tkinter import *
 from DataBase import Database
 from tkinter.font import Font
 import tkinter.messagebox
+import subprocess
+import os
+import pyttsx3
+from PIL import Image, ImageTk
 db = Database()
 
 class Show_word(Frame):
@@ -44,6 +48,13 @@ class Show_word(Frame):
         self.IKnowItButton.grid(row=5, column=3)
         self.IKnowItButton.configure(state='disabled')
 
+        im = Image.open("PronounceIcon.png")
+        Pronphoto = ImageTk.PhotoImage(im)
+
+        self.WordPronounceButton = Button(self,  command=self.WordPronounce , image=Pronphoto,width=25, height=25)
+        self.WordPronounceButton.image = Pronphoto
+        self.WordPronounceButton.grid(row=5, column=4)
+
         self.CannotRememberButton = Button(self, text="Don't know!", bg="red", fg="white", font=ChangeFont, command=self.CannotRemember)
         self.CannotRememberButton.grid(row=5, column=1)
         self.CannotRememberButton.configure(state='disabled')
@@ -56,6 +67,10 @@ class Show_word(Frame):
 
         self.WordMeaningDisplay=Text(self,  width=40, height=10, wrap=WORD, font="-weight bold")
         self.WordMeaningDisplay.grid(row=8, column=1, columnspan=3)
+
+        self.MeaningPronounceButton = Button(self, command=self.MeaningPronounce, image=Pronphoto, width=25, height=25)
+        self.MeaningPronounceButton.image = Pronphoto
+        self.MeaningPronounceButton.grid(row=8, column=4, sticky=N)
 
         self.WordNoDisplay = Entry(self,state="readonly",width=25)
         self.WordNoDisplay.grid(row=10, column=2)
@@ -130,6 +145,32 @@ class Show_word(Frame):
             self.WordNoDisplay.delete(0, END)
             self.WordMeaningDisplay.delete(0.0, END)
             self.WordNoDisplay.configure(state='readonly')
+    def WordPronounce(self):
+        if (self.CheckForWordSelection(self.WordNameInput.get())):
+            WordName = self.WordNameInput.get()
+            # tx = repr(WordName)
+            # CREATE_NO_WINDOW = 0x08000000
+            # subprocess.call('PowerShell -Command "Add-Type –AssemblyName System.Speech; (New-Object System.Speech.Synthesis.SpeechSynthesizer).Speak(%s);"' % tx, creationflags=CREATE_NO_WINDOW)
+            # os.system('PowerShell -Command "Add-Type –AssemblyName System.Speech; (New-Object System.Speech.Synthesis.SpeechSynthesizer).Speak(%s);"' % tx)
+            engine = pyttsx3.init()
+            voices = engine.getProperty('voices')
+            engine.setProperty('rate', 150)
+            engine.setProperty('voice', voices[1].id)
+            engine.say(WordName)
+            engine.runAndWait()
+    def MeaningPronounce(self):
+        WordMeaning = self.WordMeaningDisplay.get("1.0", END)
+        # tx = repr(WordMeaning)
+        # CREATE_NO_WINDOW = 0x08000000
+        # subprocess.call(
+        #     'PowerShell -Command "Add-Type –AssemblyName System.Speech; (New-Object System.Speech.Synthesis.SpeechSynthesizer).Speak(%s);"' % tx,
+        #     creationflags=CREATE_NO_WINDOW)
+        engine = pyttsx3.init()
+        voices = engine.getProperty('voices')
+        engine.setProperty('rate', 150)
+        engine.setProperty('voice', voices[1].id)
+        engine.say(WordMeaning)
+        engine.runAndWait()
 
     def CannotRemember(self):
         if (self.CheckForWordSelection(self.WordNameInput.get())):

@@ -1,5 +1,6 @@
 from tkinter import *
 
+
 from AddNewWord import *
 from ShowWord import *
 
@@ -34,7 +35,16 @@ class Welcome(Frame):
 
 root = Tk()
 myGUIWelcomeWindow=Welcome(root)
-root.iconbitmap(default='w.ico')
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+root.iconbitmap(default=resource_path('w.ico'))
 root.mainloop()
 
 
